@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::get('properties', [PropertyController::class, 'index'])->name('api.properties.index');
-Route::post('properties', [PropertyController::class, 'store'])->name('api.properties.store');
+Route::group(['as'=>'api.'], function(){
+    Route::group(['as'=>'properties.'], function(){
+        Route::get('properties', [PropertyController::class, 'index'])->name('index');
+        Route::post('properties', [PropertyController::class, 'store'])->name('store');
+        Route::put('properties/{property}', [PropertyController::class, 'update'])->name('update');
+        Route::delete('properties', [PropertyController::class, 'destroy'])->name('destroy');
+    });
+});

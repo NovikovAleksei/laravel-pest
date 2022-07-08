@@ -22,4 +22,18 @@ class PropertyController extends Controller
             'data' => Property::query()->create($request->all())
         ], 201);
     }
+
+    public function update(PropertyRequest $request, Property $property): JsonResponse
+    {
+        return response()->json([
+            'data' => tap($property)->update($request->all())
+        ]);
+    }
+
+    public function destroy(Property $property)
+    {
+        $property->delete();
+
+        return response([], 204);
+    }
 }
